@@ -1,5 +1,6 @@
 package com.example.springboot.models;
 
+import io.swagger.annotations.ApiModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode()
 @ToString
+@ApiModel
 public class ProductModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
