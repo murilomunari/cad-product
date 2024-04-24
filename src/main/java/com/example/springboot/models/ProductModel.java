@@ -20,7 +20,7 @@ public class ProductModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID idProduct;
+    private UUID idProduct; // Gerador automatico de id (Sem a nescessidade de nos colocarmos no banco)
 
     private String name;
 
