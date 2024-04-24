@@ -14,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode()
+@ToString
 public class ProductModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
