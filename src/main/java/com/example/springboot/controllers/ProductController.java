@@ -23,7 +23,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductDTO productDTO){
         var productModel = new ProductModel();
-        BeanUtils.copyProperties(productDTO, productModel); // copyPropertis faz a conversão de DTO para model
+        BeanUtils.copyProperties(productDTO, productModel); // copyProperties faz a conversão de DTO para model
         return ResponseEntity.status(HttpStatus.CREATED).body(productRepository.save(productModel));
     }
 
