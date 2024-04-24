@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,4 +49,28 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productRepository.save(productModel));
     }
 
+    @GetMapping
+    public ResponseEntity<List<ProductModel>> getAllProducts() {
+        List<ProductModel> products = this.productRepository.findAll();
+
+        if (products.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Se não houver produtos, retornar 404
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(products); // Se houver produtos, retornar a lista de produtos
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<ProductModel>> findById() {
+        List<ProductModel> products = this.productRepository.findAll();
+
+        if (products.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(products);
+        }
+    }
+
 }
+
+
