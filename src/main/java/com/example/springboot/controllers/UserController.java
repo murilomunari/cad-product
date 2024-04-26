@@ -87,7 +87,7 @@ public class UserController {
         Optional<UserModel> findById = this.userRepository.findById(id);
         if (findById.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(findById.get());
-        } else {
+        }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
