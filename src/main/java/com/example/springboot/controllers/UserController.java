@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -61,5 +62,34 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(userModel));
     }
 
+    @ApiOperation(value = "Obter todos os usuarios")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario encontrado com sucesso"),
+            @ApiResponse(code = 404, message = "Usuario não encontrado")
+    })
+    @GetMapping
+    public ResponseEntity<List<UserModel>> getAllUser(){
+        List<UserModel> user0 = this.userRepository.findAll();
+        if (user0.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(user0);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @ApiOperation(value = "Obter um usuario pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario encontrado com sucesso"),
+            @ApiResponse(code = 404, message = "Usuario não encontrado")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<UserModel> findById(@ApiParam(value = "Id do usuário") @PathVariable UUID id) {
+        Optional<UserModel> findById = this.userRepository.findById(id);
+        if (findById.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(findById.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 }
 
