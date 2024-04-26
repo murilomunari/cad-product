@@ -29,6 +29,7 @@ public class UserController {
         BeanUtils.copyProperties(userDTO, userModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(userModel));
     }
+
     @ApiOperation(value = "Deletar um usuario pelo ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Usuario deletado com sucesso"),
