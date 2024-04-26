@@ -1,8 +1,7 @@
 package com.example.springboot.models;
 
 import io.swagger.annotations.ApiModel;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -20,6 +19,8 @@ import java.util.UUID;
 public class UserModel implements Serializable {
     private static final long serialVersion = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID idUser;
 
     private String name;

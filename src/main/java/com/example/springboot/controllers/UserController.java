@@ -3,18 +3,16 @@ package com.example.springboot.controllers;
 import com.example.springboot.DTO.UserDTO;
 import com.example.springboot.models.UserModel;
 import com.example.springboot.repositories.UserRepository;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -30,5 +28,19 @@ public class UserController {
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDTO, userModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(userModel));
+    }
+    @ApiOperation(value = "Deletar um usuario pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario deletado com sucesso"),
+            @ApiResponse(code = 404, message = "Usuario não encontrado")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable(value = "id")UUID id, @RequestBody @Valid UserDTO userDTO){
+        Optional<UserModel> user0 = userRepository.findById(id);
+        if (user0.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
+        }
+        userRepository.delete(user0.get());
+        return  ResponseEntity.status(HttpStatus.OK).body("Usuario deletado com sucesso");
     }
 }
