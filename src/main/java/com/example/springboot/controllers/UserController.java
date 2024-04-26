@@ -24,7 +24,7 @@ public class UserController {
 
     @ApiOperation(value = "Criar um novo usuario")
     @PostMapping
-    public ResponseEntity<UserModel> saveUser(@RequestBody @Valid UserDTO userDTO){
+    public ResponseEntity<UserModel> saveUser(@RequestBody @Valid UserDTO userDTO) {
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDTO, userModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(userModel));
@@ -36,12 +36,30 @@ public class UserController {
             @ApiResponse(code = 404, message = "Usuario não encontrado")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteUser(@PathVariable(value = "id")UUID id, @RequestBody @Valid UserDTO userDTO){
+    public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") UUID id, @RequestBody @Valid UserDTO userDTO) {
         Optional<UserModel> user0 = userRepository.findById(id);
         if (user0.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado");
         }
         userRepository.delete(user0.get());
-        return  ResponseEntity.status(HttpStatus.OK).body("Usuario deletado com sucesso");
+        return ResponseEntity.status(HttpStatus.OK).body("Usuario deletado com sucesso");
     }
+
+    @ApiOperation(value = "Atualizar um usuario pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Usuario atualizado com sucesso"),
+            @ApiResponse(code = 404, message = "Usuario não encontrado")
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateUser(@PathVariable(value = "id") UUID id, @RequestBody @Valid UserDTO userDTO) {
+        Optional<UserModel> user0 = userRepository.findById(id);
+        if (user0.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nâo encontrado");
+        }
+        var userModel = user0.get();
+        BeanUtils.copyProperties(userDTO, userModel);
+        return ResponseEntity.status(HttpStatus.OK).body(userRepository.save(userModel));
+    }
+
 }
+
